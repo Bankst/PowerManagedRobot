@@ -10,12 +10,13 @@ public abstract class BaseMotorController {
         motorModel = _motorModel;
     }
 
-
     public abstract void set(double power);
-    public abstract void setAppliedVoltage();
+
+    public abstract void setOutputVoltage(double voltage);
+
     public abstract double get();
-    public double getAppliedVoltage() {
-        // return RobotController.?
-        return -1;
-    }
+
+    public abstract double getOutputVoltage();
+
+    public abstract double getInputVoltage();
 }
