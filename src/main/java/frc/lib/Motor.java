@@ -35,7 +35,7 @@ public class Motor {
 
 
     public double predictiveCurrentLimit(double currentV, double maxI, double currentRPM) {
-        double currentI = currentV / r - currentRPM / (kv * r);
+        double currentI = calculateOutputCurrent(currentV, currentRPM);
         double outputV = currentV;
 
         if (currentI > maxI) {
@@ -52,6 +52,10 @@ public class Motor {
             outputV = maxI * r + omega / kv;
         }
         return outputV;
+    }
+
+    public double calculateOutputCurrent(double outputV, double currentRPM) {
+        return outputV / r - currentRPM / (kv * r);
     }
 
     public static final Motor kCIM = new Motor(451.089, 0.0914, 0.0184, 5330, 2.7, 2.41, 131);
