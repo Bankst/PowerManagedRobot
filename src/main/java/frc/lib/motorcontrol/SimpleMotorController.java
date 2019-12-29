@@ -1,7 +1,9 @@
 package frc.lib.motorcontrol;
 
 import edu.wpi.first.wpilibj.RobotController;
+
 import frc.lib.Motor;
+import frc.lib.util.MathUtils;
 
 public class SimpleMotorController extends BaseMotorController {
 
@@ -37,8 +39,6 @@ public class SimpleMotorController extends BaseMotorController {
     }
 
     private double clamp(double value) {
-        if (value > 1.0) value = 1.0;
-        if (value < -1.0) value = -1.0;
-        return value;
+        return MathUtils.clamp(value, -1.0, 1.0);
     }
 }

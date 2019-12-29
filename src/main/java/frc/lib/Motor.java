@@ -2,35 +2,35 @@ package frc.lib;
 
 public class Motor {
 
-    public final double kv;
-    public final double r;
-    public final double kt;
-
     public final double freeSpeed;
     public final double freeCurrent;
     public final double stallTorque;
     public final double stallCurrent;
+	
+    public final double r;
+	public final double kv;
+    public final double kt;
 
-    public Motor (double _kv, double _r, double _kt, double _freeSpeed, double _freeCurrent, double _stallTorque, double _stallCurrent) {
-        kv = _kv;
-        r = _r;
-        kt = _kt;
-
+    public Motor(double _freeSpeed, double _freeCurrent, double _stallTorque, double _stallCurrent, double _r, double _kv, double _kt) {
         freeSpeed = _freeSpeed;
         freeCurrent = _freeCurrent;
         stallTorque = _stallTorque;
         stallCurrent = _stallCurrent;
+		
+        r = _r;
+		kv = _kv;
+        kt = _kt;
     }
 
-    public Motor (double _freeSpeed, double _freeCurrent, double _stallTorque, double _stallCurrent) {
-        r = 12 / _stallCurrent;
-        kt = _stallTorque / _stallCurrent;
-        kv = _freeSpeed / (12 - _freeCurrent * r);
-
+    public Motor(double _freeSpeed, double _freeCurrent, double _stallTorque, double _stallCurrent) {
         freeSpeed = _freeSpeed;
         freeCurrent = _freeCurrent;
         stallTorque = _stallTorque;
         stallCurrent = _stallCurrent;
+		
+		r = 12 / _stallCurrent;
+        kv = _freeSpeed / (12 - _freeCurrent * r);
+        kt = _stallTorque / _stallCurrent;
     }
 
 
@@ -54,11 +54,12 @@ public class Motor {
         return outputV;
     }
 
-    public static final Motor kCIM = new Motor(451.089, 0.0914, 0.0184, 5330, 2.7, 2.41, 131);
+    public static final Motor kCIM = new Motor(5330, 2.7, 2.41, 131, 0.0916, 453.514, 0.0184);
     public static final Motor kMiniCIM = new Motor(5840, 3, 1.41, 89);
     public static final Motor kNEO = new Motor(5880, 1.3, 3.36, 166);
-    public static final Motor kFalcon = new Motor(6380, 1.5, 4.69, 257); //TODO: Experimential values dont exist?
-    public static final Motor kBag = new Motor(13180, 1.8, 0.43, 53);
+    public static final Motor kNEO550 = new Motor(12000, 0.3, 1.1, 85);     // TODO: Wait on REV for real data (these are guesstimates)
+    public static final Motor kFalcon500 = new Motor(6380, 1.5, 4.69, 257); // TODO: Experimential values dont exist?
+    public static final Motor kBAG = new Motor(13180, 1.8, 0.43, 53);
     public static final Motor k775Pro = new Motor(18730, 0.7, 0.71, 134);
     public static final Motor kAndyMark9015 = new Motor(14720,3.7, 0.36, 71);
     public static final Motor kAndyMarkNeveRest = new Motor(5480, 0.4, 0.17, 10);
