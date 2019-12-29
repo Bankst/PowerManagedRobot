@@ -4,10 +4,10 @@ import frc.lib.*;
 
 public abstract class BaseMotorController {
     
-    private final MotorModel motorModel;
+    private final Motor motor;
 
-    public BaseMotorController(MotorModel _motorModel) {
-        motorModel = _motorModel;
+    public BaseMotorController(Motor _motor) {
+        motor = _motor;
     }
 
     public abstract void set(double power);

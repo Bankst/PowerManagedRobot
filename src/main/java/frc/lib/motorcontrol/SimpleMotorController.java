@@ -1,14 +1,14 @@
 package frc.lib.motorcontrol;
 
 import edu.wpi.first.wpilibj.RobotController;
-import frc.lib.MotorModel;
+import frc.lib.Motor;
 
 public class SimpleMotorController extends BaseMotorController {
 
     private double setpoint;
 
-    public SimpleMotorController(MotorModel _motorModel) {
-        super(_motorModel);
+    public SimpleMotorController(Motor _motor) {
+        super(_motor);
     }
 
     @Override
