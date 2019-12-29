@@ -4,10 +4,15 @@ import frc.lib.*;
 
 public abstract class BaseMotorController {
     
-    private final Motor motor;
+    protected final Motor motor;
 
-    public BaseMotorController(Motor _motor) {
+    protected final String subsystem;
+
+    protected double currentLimit = Double.NaN;
+
+    public BaseMotorController(Motor _motor, String _subsystem) {
         motor = _motor;
+        subsystem = _subsystem;
     }
 
     public abstract void set(double power);
@@ -19,4 +24,27 @@ public abstract class BaseMotorController {
     public abstract double getOutputVoltage();
 
     public abstract double getInputVoltage();
+
+    public abstract double getOutputCurrent();
+
+    public Motor getMotor(){
+        return motor;
+    }
+
+    public void setCurrentLimit(double limit) {
+        currentLimit = limit;
+    }
+
+    public double getCurrentLimit(){
+        return currentLimit;
+    }
+
+    public boolean isCurrentLimiting(){
+        return !Double.isNaN(currentLimit);
+    }
+
+    public String getSubsystem() {
+        return subsystem;
+    }
+
 }
