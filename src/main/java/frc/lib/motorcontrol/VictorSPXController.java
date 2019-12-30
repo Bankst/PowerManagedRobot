@@ -4,11 +4,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.RobotController;
 import frc.lib.Motor;
-import frc.lib.powermonitor.PowerMonitor;
+import frc.lib.power.PowerManager;
 
 public class VictorSPXController extends BaseMotorController {
 
-    public WPI_VictorSPX controller;
+    public final WPI_VictorSPX controller;
 
     private int PDPport;
 
@@ -30,7 +30,7 @@ public class VictorSPXController extends BaseMotorController {
     @Override
     public void set(double power) {
         if (PDPport >= 0){
-            controller.set(motor.reactiveCurrentLimit(clamp(power), getCurrentLimit(), PowerMonitor.getInstance().panel.getCurrent(PDPport)));
+            controller.set(motor.reactiveCurrentLimit(clamp(power), getCurrentLimit(), PowerManager.getPdp().getCurrent(PDPport)));
         } else {
             // Is this the right thing to do?
             setCurrentLimit(Double.NaN);
@@ -45,7 +45,7 @@ public class VictorSPXController extends BaseMotorController {
     @Override
     public double getOutputCurrent() {
         if (PDPport >= 0){
-            return PowerMonitor.getInstance().panel.getCurrent(PDPport);
+            return PowerManager.getPdp().getCurrent(PDPport);
         } else {
             // Is this the right thing to do?
             setCurrentLimit(Double.NaN);
