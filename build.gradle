@@ -43,6 +43,10 @@ def includeDesktopSupport = true
 // Maven central needed for JUnit
 repositories {
     mavenCentral()
+    
+    maven {
+        url "https://dl.bintray.com/manyangled/maven/"
+    }
 }
 
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
@@ -53,6 +57,11 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     testCompile 'junit:junit:4.12'
+
+    compile group: 'com.manyangled', name: 'gibbous', version: '0.2.2'
+    compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+
+    compile group: 'org.ejml', name: 'ejml-all', version: '0.38'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
