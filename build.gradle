@@ -62,6 +62,8 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
 
     compile group: 'org.ejml', name: 'ejml-all', version: '0.38'
+
+    implementation 'org.ojalgo:ojalgo:48.0.0'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
