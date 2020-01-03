@@ -57,7 +57,7 @@ public class Motor {
     public static final Motor kCIM = new Motor(5330, 2.7, 2.41, 131, 0.0916, 453.514, 0.0184);
     public static final Motor kMiniCIM = new Motor(5840, 3, 1.41, 89);
     public static final Motor kNEO = new Motor(5880, 1.3, 3.36, 166);
-    public static final Motor kNEO550 = new Motor(12000, 0.3, 1.1, 85);     // TODO: Wait on REV for real data (these are guesstimates)
+    public static final Motor kNEO550 = new Motor(11000, 1.4, 0.97, 100);     // TODO: Wait on REV for real data (these are guesstimates)
     public static final Motor kFalcon500 = new Motor(6380, 1.5, 4.69, 257); // TODO: Experimential values dont exist?
     public static final Motor kBAG = new Motor(13180, 1.8, 0.43, 53);
     public static final Motor k775Pro = new Motor(18730, 0.7, 0.71, 134);
