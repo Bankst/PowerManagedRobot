@@ -58,9 +58,6 @@ dependencies {
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     testCompile 'junit:junit:4.12'
 
-    compile group: 'com.manyangled', name: 'gibbous', version: '0.2.2'
-    compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
-
     compile group: 'org.ejml', name: 'ejml-all', version: '0.38'
 
     implementation 'org.ojalgo:ojalgo:48.0.0'
