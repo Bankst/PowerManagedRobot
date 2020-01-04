@@ -11,6 +11,10 @@ public abstract class BaseMotorController {
 
     private double currentLimit = Double.NaN;
 
+    public BaseMotorController(Motor _motor, String _controllerName) {
+        this(_motor, _controllerName, -1);
+    }
+
     public BaseMotorController(Motor _motor, String _controllerName, int _maxCurrentLimit) {
         motor = _motor;
         controllerName = _controllerName;
