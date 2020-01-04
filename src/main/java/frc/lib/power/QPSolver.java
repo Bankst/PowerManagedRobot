@@ -4,6 +4,8 @@ import com.cureos.numerics.Calcfc;
 import com.cureos.numerics.Cobyla;
 import com.cureos.numerics.CobylaExitStatus;
 
+import java.util.Arrays;
+
 public class QPSolver {
 
     public static void main(String[] args) {
@@ -45,6 +47,5 @@ public class QPSolver {
         long processTime = System.nanoTime() - processStartNanos;
         System.out.println(x);
         System.out.printf("%.2f ms", processTime / 1000000.0);
-
     }
 }

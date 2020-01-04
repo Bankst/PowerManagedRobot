@@ -20,12 +20,23 @@ public class PowerManagedSubsystem extends SubsystemBase {
     public PowerManagedSubsystem(String _subsystemName, int _priority) {
         setName(_subsystemName);
         priority = _priority;
+        PowerManager.addSubsystem(this);
     }
 
     protected void manageController(BaseMotorController controller) {
         if (!managedControllers.contains(controller)) {
             managedControllers.add(controller);
         }
+    }
+
+    public double getDesiredCurrent() {
+        double totalMaxCurrentLimit = 0;
+
+        for (var bmc : managedControllers) {
+            totalMaxCurrentLimit += bmc.getMaxCurrentLimit();
+        }
+
+        return totalMaxCurrentLimit;
     }
 
     public double getTotalCurrentUsage() {

@@ -5,20 +5,16 @@ import frc.lib.power.PowerManagedSubsystem;
 
 public abstract class BaseMotorController {
     
-    protected final Motor motor;
-    protected final String controllerName;
+    final Motor motor;
+    private final String controllerName;
+    private final int maxCurrentLimit;
 
-    protected int priority;
-    protected double currentLimit = Double.NaN;
+    private double currentLimit = Double.NaN;
 
-    public BaseMotorController(Motor _motor, String _controllerName) {
-        this(_motor, _controllerName, -1);
-    }
-
-    public BaseMotorController(Motor _motor, String _controllerName, int _priority) {
+    public BaseMotorController(Motor _motor, String _controllerName, int _maxCurrentLimit) {
         motor = _motor;
         controllerName = _controllerName;
-        priority = _priority;
+        maxCurrentLimit = _maxCurrentLimit;
     }
 
     public abstract void set(double power);
@@ -53,11 +49,5 @@ public abstract class BaseMotorController {
         return controllerName;
     }
 
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
+    public double getMaxCurrentLimit() { return maxCurrentLimit; }
 }
