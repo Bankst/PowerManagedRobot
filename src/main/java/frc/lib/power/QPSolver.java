@@ -10,8 +10,9 @@ public class QPSolver {
         double rhobeg = 0.1;
         double rhoend = 1.0e-10;
         int iprint = 1;
-        int maxfun = 100;
+        int maxfun = 35;
 
+        long processStartNanos = System.nanoTime();
         Calcfc calcfc = new Calcfc() {
             @Override
             public double Compute(int n, int m, double[] x, double[] con) {
@@ -23,7 +24,9 @@ public class QPSolver {
         };
         double[] x = {0.0, 0.0};
         CobylaExitStatus result = Cobyla.FindMinimum(calcfc, 2, 3, x, rhobeg, rhoend, iprint, maxfun);
+        long processTime = System.nanoTime() - processStartNanos;
         System.out.println(x);
+        System.out.println(processTime / 1000000.0);
 
     }
 }
