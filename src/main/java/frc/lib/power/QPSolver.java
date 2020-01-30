@@ -4,48 +4,70 @@ import com.cureos.numerics.Calcfc;
 import com.cureos.numerics.Cobyla;
 import com.cureos.numerics.CobylaExitStatus;
 
+import frc.lib.power.solver.SubsystemSolvable;
+
 import java.util.Arrays;
 
 public class QPSolver {
+    private double rhobeg = 0.2;
+    private double rhoend = 1.0e-10;
+    private int iprint = 0;
+    private int maxfun = 50;
 
-    public static void main(String[] args) {
-        double rhobeg = 0.2;
-        double rhoend = 1.0e-10;
-        int iprint = 0;
-        int maxfun = 50;
+    private int numSubsystems;
+    private int numConstraints;
 
-        /* Max Allowable = 120 */
-        /* Requested Subsystem_1(x[0]) = 140 */
-        /* Requested Subsystem_2(x[1]) = 100 */
-        /* Requested Subsystem_3(x[2]) = 140 */
-        /* Requested Subsystem_4(x[3]) = 100 */
-        /* Weight Subsystem_1(x[0]) = 0.3 */
-        /* Weight Subsystem_2(x[1]) = 0.6 */
-        /* Weight Subsystem_3(x[2]) = 0.4 */
-        /* Weight Subsystem_4(x[3]) = 0.6 */
+    private double returnVal = 0.0;
 
-        long processStartNanos = System.nanoTime();
+    private double[] mastx;
+
+    private SubsystemSolvable[] subsystems;
+
+    public QPSolver(SubsystemSolvable... _subsystems){
+        subsystems = _subsystems;
+        numSubsystems = subsystems.length;
+        numConstraints = numSubsystems*2 + 1;
+        System.out.println("Sub" + numSubsystems);
+        System.out.println("Constraints" + numConstraints);
+    }
+
+    public double[] solve(int maxCurrent){
         Calcfc calcfc = new Calcfc() {
             @Override
             public double Compute(int n, int m, double[] x, double[] con) {
-                con[0] = 120 - ((140 * x[0]) + (100 * x[1]) + (140 * x[2]) + (100 * x[3])); /* 140*x_0 + 100*x_1 + 140*x_2 + 100*x_3 <= 120 */
-                con[1] = 1 - x[0]; /* x_0 <= 1 */
-                con[2] = 1 - x[1]; /* x_1 <= 1 */
-                con[3] = 1 - x[2]; /* x_2 <= 1 */
-                con[4] = 1 - x[3]; /* x_3 <= 1 */
-                con[5] = x[0] - 0; /* 0 <= x_0 */
-                con[6] = x[1] - 0; /* 0 <= x_1 */
-                con[7] = x[2] - 0; /* 0 <= x_2 */
-                con[8] = x[3] - 0; /* 0 <= x_s3 */
-                /* -0.3 * x_0^2 + -0.6 * x_1^2 + -0.4 * x_2^2 + -0.6 * x_3^2 */
-                return -0.3 * Math.pow(x[0], 2.0) + -0.6 * Math.pow(x[1], 2.0) + -0.4 * Math.pow(x[2], 2.0) + -0.6 * Math.pow(x[3], 2.0);
+
+                con[0] = maxCurrent;
+
+                System.out.println("Con[0]" + con[0]);
+
+                for (int i = 0; i < subsystems.length; i++){
+                    con[0] -= (subsystems[i].requestedCurrent * x[i]);
+                }
+                
+                for (int i = 0; i < subsystems.length; i++){
+                    con[i+1] = (1 - x[i]);
+                }
+
+                for (int i = 0; i < subsystems.length; i++){
+                    con[i + 1 + subsystems.length] = (x[i] - 0);
+                }
+
+                for (int i = 0; i < subsystems.length; i++){
+                    returnVal += -(subsystems[i].weight) * Math.pow(x[i], 2.0);
+                }
+
+                System.out.println(returnVal);
+
+                return returnVal;
             }
         };
-        double[] x = {0.0, 0.0, 0.0, 0.0};
-        /* 4 variables(subsystems) and 9 constraints */
-        CobylaExitStatus result = Cobyla.FindMinimum(calcfc, 4, 9, x, rhobeg, rhoend, iprint, maxfun);
-        long processTime = System.nanoTime() - processStartNanos;
-        System.out.println(x);
-        System.out.printf("%.2f ms", processTime / 1000000.0);
+        mastx = new double[numSubsystems];
+        Arrays.fill(mastx, 0.0);
+        CobylaExitStatus result = Cobyla.FindMinimum(calcfc, numSubsystems, numConstraints, mastx, rhobeg, rhoend, iprint, maxfun);
+        System.out.println("0 " + mastx[0] * 140);
+        System.out.println("1 " + mastx[1] * 100);
+        System.out.println("2 " + mastx[2] * 140);
+        System.out.println("3 " + mastx[3] * 100);
+        return mastx;
     }
 }

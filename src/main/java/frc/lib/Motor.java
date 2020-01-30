@@ -11,6 +11,8 @@ public class Motor {
 	public final double kv;
     public final double kt;
 
+    public int numMotors = 1;
+
     public Motor(double _freeSpeed, double _freeCurrent, double _stallTorque, double _stallCurrent, double _r, double _kv, double _kt) {
         freeSpeed = _freeSpeed;
         freeCurrent = _freeCurrent;
@@ -38,6 +40,8 @@ public class Motor {
         double currentI = currentV / r - currentRPM / (kv * r);
         double outputV = currentV;
 
+        System.out.println(currentI);
+
         if (currentI > maxI) {
             outputV = maxI * r + currentRPM / kv;
         }
@@ -52,6 +56,24 @@ public class Motor {
             outputV = maxI * r + omega / kv;
         }
         return outputV;
+    }
+
+    public void setNumber(int _number){
+        this.numMotors = _number;
+    }
+
+    public Motor dual(){
+        this.setNumber(2);
+        return this;
+    }
+
+    public Motor triple(){
+        this.setNumber(2);
+        return this;
+    }
+    
+    public double current(double speed, double inputVoltage){
+        return 1.0 / kv / r * speed + 1.0 / r * inputVoltage;
     }
 
     public static final Motor kCIM = new Motor(5330, 2.7, 2.41, 131, 0.0916, 453.514, 0.0184);
